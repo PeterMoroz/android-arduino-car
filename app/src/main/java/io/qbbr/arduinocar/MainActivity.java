@@ -82,10 +82,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_github:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/qbbr/android-arduino-car"));
-                startActivity(browserIntent);
-                return true;
+//            case R.id.action_github:
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/qbbr/android-arduino-car"));
+//                startActivity(browserIntent);
+//                return true;
             case R.id.action_exit:
                 finish();
                 return true;
