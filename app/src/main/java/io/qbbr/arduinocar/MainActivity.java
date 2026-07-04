@@ -3,7 +3,6 @@ package io.qbbr.arduinocar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQUEST_ENABLE_BT = 1;
 
     TextView tvCurrentDevice;
-    Button btnControls;
+    Button btnManualDrive;
+    Button btnAutomaticDrive;
     Button btnChooseDevice;
 
     @Override
@@ -46,8 +46,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tvCurrentDevice = findViewById(R.id.tvCurrentDevice);
 
-        btnControls = findViewById(R.id.btnControls);
-        btnControls.setOnClickListener(this);
+        btnManualDrive = findViewById(R.id.btnManualDrive);
+        btnManualDrive.setOnClickListener(this);
+
+        btnAutomaticDrive = findViewById(R.id.btnAutomaticDrive);
+        btnAutomaticDrive.setOnClickListener(this);
     }
 
     @Override
@@ -99,17 +102,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.btnChooseDevice:
                 if (btnChooseDevice.getText() == getResources().getString(R.string.btn_choose_device)) {
-                    Intent intent2 = new Intent(this, DeviceListActivity.class);
-                    startActivity(intent2);
+                    Intent intent = new Intent(this, DeviceListActivity.class);
+                    startActivity(intent);
                 } else {
                     G.connectThread.cancel();
                     finish();
                     startActivity(getIntent());
                 }
                 break;
-            case R.id.btnControls:
-                Intent intent = new Intent(this, ControlsActivity.class);
-                startActivity(intent);
+            case R.id.btnManualDrive:
+                Intent intentManualDrive = new Intent(this, ManualDriveActivity.class);
+                startActivity(intentManualDrive);
+                break;
+            case R.id.btnAutomaticDrive:
+                Intent intentAutomaticDrive = new Intent(this, AutomaticDriveActivity.class);
+                startActivity(intentAutomaticDrive);
                 break;
         }
     }
@@ -123,11 +130,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (G.connectThread != null && G.connectThread.isConnected()) {
             tvCurrentDevice.setText("connected to device " + G.bluetoothDevice.getName());
             btnChooseDevice.setText(R.string.btn_disconnect);
-            btnControls.setEnabled(true);
+            btnManualDrive.setEnabled(true);
+            btnAutomaticDrive.setEnabled(true);
         } else {
             tvCurrentDevice.setText(R.string.device_not_chosen);
             btnChooseDevice.setText(R.string.btn_choose_device);
-            btnControls.setEnabled(false);
+            btnManualDrive.setEnabled(false);
+            btnAutomaticDrive.setEnabled(false);
         }
     }
 }

@@ -26,14 +26,24 @@
             android:text="@string/btn_choose_device" />
 
         <Button
-            android:id="@+id/btnControls"
+            android:id="@+id/btnManualDrive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
             android:layout_marginTop="20dp"
             android:drawableStart="@drawable/ic_gamepad_black_24dp"
             android:drawablePadding="5dp"
-            android:text="@string/btn_controls" />
+            android:text="Manual Drive" />
+
+        <Button
+            android:id="@+id/btnAutomaticDrive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/ic_gamepad_black_24dp"
+            android:drawablePadding="5dp"
+            android:text="Automatic Drive" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

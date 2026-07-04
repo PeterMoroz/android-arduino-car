@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class ConnectThread extends Thread {
@@ -17,7 +18,7 @@ public class ConnectThread extends Thread {
     private final BluetoothSocket socket;
     private final InputStream inputStream;
     private final OutputStream outputStream;
-    private Handler handler;
+    private ArrayList<Handler> handlerList;
 
     public ConnectThread(BluetoothDevice bluetoothDevice) {
         BluetoothSocket socket = null;
@@ -58,6 +59,8 @@ public class ConnectThread extends Thread {
 
         this.inputStream = inputStream;
         this.outputStream = outputStream;
+
+        handlerList = new ArrayList<>();
     }
 
     private void connect() throws IOException {
@@ -74,8 +77,8 @@ public class ConnectThread extends Thread {
         return socket.isConnected();
     }
 
-    public void setHandler(Handler handler) {
-        this.handler = handler;
+    public void addHandler(Handler handler) {
+        handlerList.add(handler);
     }
 
     @Override
@@ -95,7 +98,9 @@ public class ConnectThread extends Thread {
                     bytesRead = inputStream.read(packetBytes);
                     readMsg = new String(packetBytes, StandardCharsets.US_ASCII);
                     readMsg = readMsg.substring(0, bytesRead);
-                    handler.obtainMessage(RECEIVE_MESSAGE, bytesRead, -1, readMsg).sendToTarget();
+                    for (Handler handler : handlerList) {
+                        handler.obtainMessage(RECEIVE_MESSAGE, bytesRead, -1, readMsg).sendToTarget();
+                    }
                 }
             } catch (IOException e) {
                 break;

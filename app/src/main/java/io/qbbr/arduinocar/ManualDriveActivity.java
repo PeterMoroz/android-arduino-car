@@ -1,5 +1,6 @@
 package io.qbbr.arduinocar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,7 +12,7 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ControlsActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+public class ManualDriveActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
     private StringBuilder sb = new StringBuilder();
 
@@ -56,10 +57,12 @@ public class ControlsActivity extends AppCompatActivity implements View.OnClickL
 
     TextView tvArduino;
 
+    Button btnAutomaticMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_controls);
+        setContentView(R.layout.activity_manual_drive);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -101,7 +104,10 @@ public class ControlsActivity extends AppCompatActivity implements View.OnClickL
 
         tvArduino = findViewById(R.id.tvArduino);
 
-        G.connectThread.setHandler(new Handler() {
+        btnAutomaticMode = findViewById(R.id.btnAutomaticMode);
+        btnAutomaticMode.setOnClickListener(this);
+
+        G.connectThread.addHandler(new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
@@ -130,6 +136,7 @@ public class ControlsActivity extends AppCompatActivity implements View.OnClickL
         });
 
         if (G.connectThread.getState() == Thread.State.NEW) {
+            Log.d(G.LOG_TAG, "ManualDriveActivity - start connect thread");
             G.connectThread.start();
         }
 
@@ -170,7 +177,6 @@ public class ControlsActivity extends AppCompatActivity implements View.OnClickL
                 write(CMD_BACKWARD_RIGHT);
                 break;
             case R.id.btnDistance:
-//                setDistance(12);
                 write(CMD_GET_DISTANCE);
                 break;
             case R.id.radioBtnServoLeft:
@@ -182,12 +188,12 @@ public class ControlsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.radioBtnServoRight:
                 write(CMD_SERVO_RIGHT);
                 break;
+            case R.id.btnAutomaticMode:
+                Intent intent = new Intent(this, AutomaticDriveActivity.class);
+                startActivity(intent);
+                break;
         }
     }
-
-//    private void setDistance(int d) {
-//        tvDistance.setText("Distance: " + String.valueOf(d) + " cm");
-//    }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {

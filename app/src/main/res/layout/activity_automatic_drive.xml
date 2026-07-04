@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AutomaticDriveActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp">
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textSize="24dp"
+                    android:text="Distance"/>
+            </TableRow>
+
+            <TableRow
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvDistanceLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Left"/>
+
+                <TextView
+                    android:id="@+id/tvDistanceMiddle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Middle"/>
+
+                <TextView
+                    android:id="@+id/tvDistanceRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+                    android:text="Right" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_marginTop="20sp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textSize="24dp"
+                    android:text="Speed"/>
+            </TableRow>
+
+            <TableRow
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvSpeedLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Left"/>
+
+                <TextView
+                    android:id="@+id/tvSpeedAdjusted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Adjusted"/>
+
+                <TextView
+                    android:id="@+id/tvSpeedRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+                    android:text="Right"/>
+            </TableRow>
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/btnManualMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20sp"
+            android:text="Manual Mode" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
