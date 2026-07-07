@@ -86,61 +86,6 @@
             <TableRow
                 android:layout_marginTop="20sp">
                 <TextView
-                    android:id="@+id/tvDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_span="3"
-                    android:textAlignment="center"
-                    android:text="@string/tv_distance"/>
-            </TableRow>
-
-            <TableRow>
-                <Button
-                    android:id="@+id/btnDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_span="3"
-                    android:text="@string/btn_get_distance" />
-            </TableRow>
-
-            <TableRow
-                android:layout_marginTop="20sp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_span="3"
-                    android:textAlignment="center"
-                    android:text="@string/tv_sonar_servo"/>
-            </TableRow>
-
-            <TableRow>
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_span="3"
-                    android:gravity="center">
-                    <RadioButton
-                        android:id="@+id/radioBtnServoLeft"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rb_servo_left" />
-                    <RadioButton
-                        android:id="@+id/radioBtnServoMid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rb_servo_mid" />
-                    <RadioButton
-                        android:id="@+id/radioBtnServoRight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rb_servo_right" />
-                </RadioGroup>
-            </TableRow>
-
-            <TableRow
-                android:layout_marginTop="20sp">
-                <TextView
                     android:id="@+id/tvSpeed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -157,26 +102,6 @@
                     android:layout_span="3"
                     android:min="1"
                     android:max="10"/>
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:id="@+id/tvArduino"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_span="3"
-                    android:layout_marginTop="20dp"
-                    android:textAlignment="center"/>
-            </TableRow>
-
-            <TableRow
-                android:layout_marginTop="20sp">
-                <Button
-                    android:id="@+id/btnAutomaticMode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_span="3"
-                    android:text="Automatic Mode" />
             </TableRow>
 
         </TableLayout>

@@ -1,24 +1,22 @@
 package io.qbbr.arduinocar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Html;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AutomaticDriveActivity extends AppCompatActivity implements View.OnClickListener {
+public class AutomaticDriveActivity extends AppCompatActivity {
 
     private static final String ARDUINO_VAR_DISTANCE = "$distance: ";
     private static final String ARDUINO_VAR_SPEED = "$speed: ";
     private static final String ARDUINO_END_OF_LINE = "\r\n";
+    public static final char CMD_AUTOMATIC_DRIVE = 'n';
 
     private StringBuilder sb = new StringBuilder();
 
@@ -30,12 +28,13 @@ public class AutomaticDriveActivity extends AppCompatActivity implements View.On
     TextView tvSpeedRight;
     TextView tvSpeedAdjusted;
 
-    Button btnManualMode;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automatic_drive);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         tvDistanceLeft = findViewById(R.id.tvDistanceLeft);
         tvDistanceMiddle = findViewById(R.id.tvDistanceMiddle);
@@ -44,9 +43,6 @@ public class AutomaticDriveActivity extends AppCompatActivity implements View.On
         tvSpeedLeft = findViewById(R.id.tvSpeedLeft);
         tvSpeedRight = findViewById(R.id.tvSpeedRight);
         tvSpeedAdjusted = findViewById(R.id.tvSpeedAdjusted);
-
-        btnManualMode = findViewById(R.id.btnManualMode);
-        btnManualMode.setOnClickListener(this);
 
         G.connectThread.addHandler(new Handler() {
             @Override
@@ -61,14 +57,6 @@ public class AutomaticDriveActivity extends AppCompatActivity implements View.On
                         if (endOfLineIndex > 0) {
                             String data = sb.substring(0, endOfLineIndex);
                             Log.d(G.LOG_TAG, "data: '" + data + "'");
-//                            if (!data.startsWith("[D]")) { // skjp debug msg
-//                                tvArduino.setText(Html.fromHtml("<u>Arduino answer</u>:\n" + "<b>" + data + "</b>", Html.FROM_HTML_MODE_LEGACY));
-//
-//                                if (data.startsWith(ARDUINO_VAR_DISTANCE)) {
-//                                    String distance = data.substring(data.indexOf(':') + 2);
-//                                    tvDistance.setText(Html.fromHtml("<b>" + distance + "</b>", Html.FROM_HTML_MODE_LEGACY));
-//                                }
-//                            }
 
                             if (data.startsWith(ARDUINO_VAR_DISTANCE)) {
                                 String distance = data.substring(data.indexOf(':') + 2);
@@ -126,12 +114,22 @@ public class AutomaticDriveActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnManualMode:
-                Intent intent = new Intent(this, ManualDriveActivity.class);
-                startActivity(intent);
-                break;
+    protected void onResume() {
+        super.onResume();
+        write(CMD_AUTOMATIC_DRIVE);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void write(char data) {
+        if (!G.connectThread.write(data)) {
+            finishWithError();
         }
     }
 
