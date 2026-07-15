@@ -14,10 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AutomaticDriveActivity extends AppCompatActivity {
 
     private static final String ARDUINO_DATA = "$data: ";
-    private static final String ARDUINO_END_OF_LINE = "\r\n";
     public static final char CMD_AUTOMATIC_DRIVE = 'n';
-
-    private StringBuilder sb = new StringBuilder();
 
     TextView tvDistanceLeft;
     TextView tvDistanceMiddle;
@@ -50,27 +47,19 @@ public class AutomaticDriveActivity extends AppCompatActivity {
 
                 switch (msg.what) {
                     case ConnectThread.RECEIVE_MESSAGE:
-                        String readMsg = (String) msg.obj;
-                        sb.append(readMsg);
-                        int endOfLineIndex = sb.indexOf(ARDUINO_END_OF_LINE);
-                        if (endOfLineIndex > 0) {
-                            String data = sb.substring(0, endOfLineIndex);
-                            Log.d(G.LOG_TAG, "data: '" + data + "'");
-
-                            if (data.startsWith(ARDUINO_DATA)) {
-                                data = data.substring(data.indexOf(':') + 2);
-                                String[] params = data.split(", ");
-                                if (params.length == 6) {
-                                    tvDistanceLeft.setText(params[0]);
-                                    tvDistanceMiddle.setText(params[1]);
-                                    tvDistanceRight.setText(params[2]);
-                                    tvSpeedLeft.setText(params[3]);
-                                    tvSpeedAdjusted.setText(params[4]);
-                                    tvSpeedRight.setText(params[5]);
-                                }
+                        String data = (String) msg.obj;
+//                        Log.d(G.LOG_TAG, "data: '" + data + "'");
+                        if (data.startsWith(ARDUINO_DATA)) {
+                            data = data.substring(data.indexOf(':') + 2);
+                            String[] params = data.split(", ");
+                            if (params.length == 6) {
+                                tvDistanceLeft.setText(params[0]);
+                                tvDistanceMiddle.setText(params[1]);
+                                tvDistanceRight.setText(params[2]);
+                                tvSpeedLeft.setText(params[3]);
+                                tvSpeedAdjusted.setText(params[4]);
+                                tvSpeedRight.setText(params[5]);
                             }
-
-                            sb.delete(0, sb.length());
                         }
                         break;
                 }

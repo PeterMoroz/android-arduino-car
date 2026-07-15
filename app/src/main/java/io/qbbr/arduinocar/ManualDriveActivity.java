@@ -17,8 +17,6 @@ import java.util.Date;
 
 public class ManualDriveActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
-    private StringBuilder sb = new StringBuilder();
-
     public static final char CMD_FORWARD_LEFT = 'q';
     public static final char CMD_FORWARD = 'w';
     public static final char CMD_FORWARD_RIGHT = 'e';
@@ -30,7 +28,6 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
     public static final char CMD_STOP = 's';
     public static final char CMD_MANUAL_DRIVE = 'm';
 
-    private static final String ARDUINO_END_OF_LINE = "\r\n";
 
     FileOutputStream fos = null;
 
@@ -87,21 +84,7 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
                 // ignore message, just dummy handler
                 switch (msg.what) {
                     case ConnectThread.RECEIVE_MESSAGE:
-                        String readMsg = (String) msg.obj;
-                        sb.append(readMsg);
-                        int endOfLineIndex = sb.indexOf(ARDUINO_END_OF_LINE);
-                        if (endOfLineIndex > 0) {
-                            String data = sb.substring(0, endOfLineIndex + 2);
-                            sb.delete(0, sb.length());
-
-//                            if (fos != null) {
-//                                try {
-//                                    fos.write(data.getBytes());
-//                                } catch (IOException e) {
-//                                    Log.d(G.LOG_TAG, "fos.write(), IOException: " + e.getMessage());
-//                                }
-//                            }
-                        }
+                        String data = (String) msg.obj;
                         break;
                 }
             }

@@ -15,6 +15,8 @@ import java.util.UUID;
 public class ConnectThread extends Thread {
     public final static int RECEIVE_MESSAGE = 1;
 
+    private static final String ARDUINO_END_OF_LINE = "\r\n";
+
     private final BluetoothSocket socket;
     private final InputStream inputStream;
     private final OutputStream outputStream;
@@ -89,6 +91,7 @@ public class ConnectThread extends Thread {
         int bytesAvailable;
         int bytesRead;
         String readMsg;
+        StringBuilder sb = new StringBuilder();
 
         while (true) {
             try {
@@ -98,8 +101,15 @@ public class ConnectThread extends Thread {
                     bytesRead = inputStream.read(packetBytes);
                     readMsg = new String(packetBytes, StandardCharsets.US_ASCII);
                     readMsg = readMsg.substring(0, bytesRead);
-                    for (Handler handler : handlerList) {
-                        handler.obtainMessage(RECEIVE_MESSAGE, bytesRead, -1, readMsg).sendToTarget();
+
+                    sb.append(readMsg);
+                    int endOfLineIndex = sb.indexOf(ARDUINO_END_OF_LINE);
+                    if (endOfLineIndex > 0) {
+                        String data = sb.substring(0, endOfLineIndex);
+                        for (Handler handler : handlerList) {
+                            handler.obtainMessage(RECEIVE_MESSAGE, -1, -1, data).sendToTarget();
+                        }
+                        sb.delete(0, sb.length());
                     }
                 }
             } catch (IOException e) {
