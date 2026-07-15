@@ -19,9 +19,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQUEST_ENABLE_BT = 1;
 
     TextView tvCurrentDevice;
+    Button btnChooseDevice;
     Button btnManualDrive;
     Button btnAutomaticDrive;
-    Button btnChooseDevice;
+    Button btnOpenRadar;
+    Button btnBuildAreaMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnAutomaticDrive = findViewById(R.id.btnAutomaticDrive);
         btnAutomaticDrive.setOnClickListener(this);
+
+        btnOpenRadar = findViewById(R.id.btnRadar);
+        btnOpenRadar.setOnClickListener(this);
+
+        btnBuildAreaMap = findViewById(R.id.btnBuildMap);
+        btnBuildAreaMap.setOnClickListener(this);
     }
 
     @Override
@@ -118,6 +127,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentAutomaticDrive = new Intent(this, AutomaticDriveActivity.class);
                 startActivity(intentAutomaticDrive);
                 break;
+            case R.id.btnRadar:
+                Intent intentRadar = new Intent(this, RadarActivity.class);
+                startActivity(intentRadar);
+                break;
+            case R.id.btnBuildMap:
+                Intent intentBuildMap = new Intent(this, AreaMapActivity.class);
+                startActivity(intentBuildMap);
+                break;
         }
     }
 
@@ -132,11 +149,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnChooseDevice.setText(R.string.btn_disconnect);
             btnManualDrive.setEnabled(true);
             btnAutomaticDrive.setEnabled(true);
+            btnOpenRadar.setEnabled(true);
+            btnBuildAreaMap.setEnabled(true);
         } else {
             tvCurrentDevice.setText(R.string.device_not_chosen);
             btnChooseDevice.setText(R.string.btn_choose_device);
             btnManualDrive.setEnabled(false);
             btnAutomaticDrive.setEnabled(false);
+            btnOpenRadar.setEnabled(false);
+            btnBuildAreaMap.setEnabled(false);
         }
     }
 }

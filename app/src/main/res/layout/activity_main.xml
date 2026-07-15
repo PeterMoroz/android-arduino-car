@@ -7,28 +7,38 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center_vertical"
+        android:padding="48dp">
 
         <TextView
             android:id="@+id/tvCurrentDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:text="@string/device_not_chosen" />
 
         <Button
             android:id="@+id/btnChooseDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:drawableStart="@drawable/ic_bluetooth_searching_black_24dp"
             android:drawablePadding="5dp"
             android:text="@string/btn_choose_device" />
 
         <Button
             android:id="@+id/btnManualDrive"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:enabled="false"
             android:layout_marginTop="20dp"
             android:drawableStart="@drawable/outline_drag_pan_24"
@@ -37,13 +47,43 @@
 
         <Button
             android:id="@+id/btnAutomaticDrive"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:enabled="false"
             android:layout_marginTop="20dp"
             android:drawableStart="@drawable/baseline_moving_24"
             android:drawablePadding="5dp"
             android:text="Automatic Drive" />
+
+        <Button
+            android:id="@+id/btnRadar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/baseline_radar_24"
+            android:drawablePadding="5dp"
+            android:text="Open Radar" />
+
+        <Button
+            android:id="@+id/btnBuildMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/outline_manga_24"
+            android:drawablePadding="5dp"
+            android:text="Build Map" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

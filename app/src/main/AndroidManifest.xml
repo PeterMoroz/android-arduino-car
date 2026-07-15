@@ -12,11 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AreaMapActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".RadarActivity"
+            android:exported="false" />
+        <activity
             android:name=".AutomaticDriveActivity"
             android:exported="false" />
         <activity android:name=".DeviceListActivity" />
         <activity android:name=".ManualDriveActivity" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

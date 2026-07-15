@@ -10,6 +10,11 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ManualDriveActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
     private StringBuilder sb = new StringBuilder();
@@ -26,6 +31,8 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
     public static final char CMD_MANUAL_DRIVE = 'm';
 
     private static final String ARDUINO_END_OF_LINE = "\r\n";
+
+    FileOutputStream fos = null;
 
     ImageButton btnForwardLeft;
     ImageButton btnForward;
@@ -77,15 +84,23 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-
+                // ignore message, just dummy handler
                 switch (msg.what) {
                     case ConnectThread.RECEIVE_MESSAGE:
                         String readMsg = (String) msg.obj;
                         sb.append(readMsg);
                         int endOfLineIndex = sb.indexOf(ARDUINO_END_OF_LINE);
                         if (endOfLineIndex > 0) {
-                            String data = sb.substring(0, endOfLineIndex);
+                            String data = sb.substring(0, endOfLineIndex + 2);
                             sb.delete(0, sb.length());
+
+//                            if (fos != null) {
+//                                try {
+//                                    fos.write(data.getBytes());
+//                                } catch (IOException e) {
+//                                    Log.d(G.LOG_TAG, "fos.write(), IOException: " + e.getMessage());
+//                                }
+//                            }
                         }
                         break;
                 }
@@ -107,7 +122,29 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         write(CMD_MANUAL_DRIVE);
+
+//        String dateStr = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date());
+//        String filename = dateStr + ".txt";
+//
+//        try {
+//            fos = openFileOutput(filename, MODE_PRIVATE);
+//        } catch (IOException e) {
+//            Log.d(G.LOG_TAG, "fos c-tor, IOException: " + e.getMessage());
+//        }
     }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (fos != null) {
+//            try {
+//                fos.close();
+//                fos = null;
+//            } catch (IOException e) {
+//                Log.d(G.LOG_TAG, "fos.close(), IOException: " + e.getMessage());
+//            }
+//        }
+//    }
 
     @Override
     public void onClick(View view) {

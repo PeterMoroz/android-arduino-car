@@ -3,7 +3,6 @@ package io.qbbr.arduinocar;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,43 +10,40 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AutomaticDriveActivity extends AppCompatActivity {
-
-    private static final String ARDUINO_DATA = "$data: ";
-    private static final String ARDUINO_END_OF_LINE = "\r\n";
-    public static final char CMD_AUTOMATIC_DRIVE = 'n';
+public class RadarActivity extends AppCompatActivity {
 
     private StringBuilder sb = new StringBuilder();
+
+    private RadarView radarView = null;
+
+    private static final String ARDUINO_VAR_DISTANCE = "$distance: ";
+    public static final char CMD_RADAR = 'r';
+    private static final String ARDUINO_END_OF_LINE = "\r\n";
 
     TextView tvDistanceLeft;
     TextView tvDistanceMiddle;
     TextView tvDistanceRight;
 
-    TextView tvSpeedLeft;
-    TextView tvSpeedRight;
-    TextView tvSpeedAdjusted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_automatic_drive);
-
+        // EdgeToEdge.enable(this);
+        // setContentView(R.layout.activity_build_map);
+        radarView = new RadarView(this);
+        setContentView(radarView);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        tvDistanceLeft = findViewById(R.id.tvDistanceLeft);
-        tvDistanceMiddle = findViewById(R.id.tvDistanceMiddle);
-        tvDistanceRight = findViewById(R.id.tvDistanceRight);
-
-        tvSpeedLeft = findViewById(R.id.tvSpeedLeft);
-        tvSpeedRight = findViewById(R.id.tvSpeedRight);
-        tvSpeedAdjusted = findViewById(R.id.tvSpeedAdjusted);
+//        tvDistanceLeft = findViewById(R.id.tvMapDistanceLeft);
+//        tvDistanceMiddle = findViewById(R.id.tvMapDistanceMiddle);
+//        tvDistanceRight = findViewById(R.id.tvMapDistanceRight);
 
         G.connectThread.addHandler(new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-
+                // ignore message, just dummy handler
                 switch (msg.what) {
                     case ConnectThread.RECEIVE_MESSAGE:
                         String readMsg = (String) msg.obj;
@@ -55,21 +51,20 @@ public class AutomaticDriveActivity extends AppCompatActivity {
                         int endOfLineIndex = sb.indexOf(ARDUINO_END_OF_LINE);
                         if (endOfLineIndex > 0) {
                             String data = sb.substring(0, endOfLineIndex);
-                            Log.d(G.LOG_TAG, "data: '" + data + "'");
-
-                            if (data.startsWith(ARDUINO_DATA)) {
+                            if (data.startsWith(ARDUINO_VAR_DISTANCE)) {
                                 data = data.substring(data.indexOf(':') + 2);
                                 String[] params = data.split(", ");
-                                if (params.length == 6) {
-                                    tvDistanceLeft.setText(params[0]);
-                                    tvDistanceMiddle.setText(params[1]);
-                                    tvDistanceRight.setText(params[2]);
-                                    tvSpeedLeft.setText(params[3]);
-                                    tvSpeedAdjusted.setText(params[4]);
-                                    tvSpeedRight.setText(params[5]);
+                                if (params.length == 3) {
+                                    try {
+                                        final int left = Integer.parseInt(params[0].trim());
+                                        final int centre = Integer.parseInt(params[1].trim());
+                                        final int right = Integer.parseInt(params[2].trim());
+                                        runOnUiThread(() -> radarView.plotDistances(left, centre, right));
+                                    } catch (NumberFormatException e) {
+                                        // Ignore malformed lines
+                                    }
                                 }
                             }
-
                             sb.delete(0, sb.length());
                         }
                         break;
@@ -78,7 +73,6 @@ public class AutomaticDriveActivity extends AppCompatActivity {
         });
 
         if (G.connectThread.getState() == Thread.State.NEW) {
-            Log.d(G.LOG_TAG, "AutomaticDriveActivity - start connect thread");
             G.connectThread.start();
         }
 
@@ -91,7 +85,7 @@ public class AutomaticDriveActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        write(CMD_AUTOMATIC_DRIVE);
+        write(CMD_RADAR);
     }
 
     @Override
