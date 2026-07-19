@@ -45,12 +45,14 @@ public class AreaMapView extends View {
     public void addRobotPoint(float x, float y) {
         robotPath.add(new PointF(x, y));
         if (robotPath.size() > MAX_POINTS) robotPath.remove(0);
-        invalidate(); // Triggers onDraw
     }
 
     public void addObstaclePoint(float x, float y) {
         obstacles.add(new PointF(x, y));
         if (obstacles.size() > MAX_POINTS) obstacles.remove(0);
+    }
+
+    public void update() {
         invalidate(); // Triggers onDraw
     }
 

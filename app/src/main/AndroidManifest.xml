@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ProgramPathActivity"
+            android:exported="false" />
+        <activity
             android:name=".AreaMapActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />

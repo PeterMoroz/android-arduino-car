@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProgramPathActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp">
+
+            <TableRow
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/btnProgramForwardLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scaleX="-1"
+                    android:src="@drawable/ic_arrow_up_right_black" />
+                <ImageButton
+                    android:id="@+id/btnProgramForward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_arrow_up_black" />
+                <ImageButton
+                    android:id="@+id/btnProgramForwardRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_arrow_up_right_black" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/btnProgramRotateLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="-1"
+                    android:src="@drawable/ic_rotate_right_black" />
+                <ImageButton
+                    android:id="@+id/btnProgramStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_stop_black" />
+                <ImageButton
+                    android:id="@+id/btnProgramRotateRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_rotate_right_black" />
+            </TableRow>
+
+            <TableRow
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/btnProgramBackwardLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="-1"
+                    android:scaleY="-1"
+                    android:src="@drawable/ic_arrow_up_right_black" />
+                <ImageButton
+                    android:id="@+id/btnProgramBackward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleY="-1"
+                    android:src="@drawable/ic_arrow_up_black" />
+                <ImageButton
+                    android:id="@+id/btnProgramBackwardRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleY="-1"
+                    android:src="@drawable/ic_arrow_up_right_black" />
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="20sp">
+                <TextView
+                    android:id="@+id/tvProgramSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:textAlignment="center"
+                    android:text="@string/tv_speed_1"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="10sp">
+                <SeekBar
+                    android:id="@+id/seekbarProgramSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:min="1"
+                    android:max="10"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="20sp">
+                <TextView
+                    android:id="@+id/tvProgramTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:textAlignment="center"
+                    android:text="Time: 0.1"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="10sp">
+                <SeekBar
+                    android:id="@+id/seekbarProgramTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:min="1"
+                    android:max="100"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="20sp">
+                <TextView
+                    android:id="@+id/tvProgramCommand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:textAlignment="center"
+                    android:text=""/>
+            </TableRow>
+
+            <TableRow>
+                <Button
+                    android:id="@+id/btnProgramAddCommand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:enabled="false"
+                    android:text="Add Command"/>
+            </TableRow>
+
+            <TableRow>
+                <Button
+                    android:id="@+id/btnProgramExecute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:enabled="false"
+                    android:text="Execute"/>
+            </TableRow>
+
+            <TableRow>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

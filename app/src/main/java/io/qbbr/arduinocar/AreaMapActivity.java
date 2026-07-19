@@ -7,12 +7,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class AreaMapActivity extends AppCompatActivity {
 
@@ -53,25 +49,27 @@ public class AreaMapActivity extends AppCompatActivity {
                                     float distC = Float.parseFloat(params[4]);
                                     float distR = Float.parseFloat(params[5]);
 
+                                    areaMapView.addRobotPoint(rx, ry);
+
+                                    // Left sensor (+30 deg)
+                                    if (distL < 150) {
+                                        float[] obs = collectObstaclePoint(rx, ry, heading, distL, 30);
+                                        areaMapView.addObstaclePoint(obs[0], obs[1]);
+                                    }
+                                    // Center sensor (0 deg)
+                                    if (distC < 150) {
+                                        float[] obs = collectObstaclePoint(rx, ry, heading, distC, 0);
+                                        areaMapView.addObstaclePoint(obs[0], obs[1]);
+                                    }
+                                    // Right sensor (-30 deg)
+                                    if (distR < 150) {
+                                        float[] obs = collectObstaclePoint(rx, ry, heading, distR, -30);
+                                        areaMapView.addObstaclePoint(obs[0], obs[1]);
+                                    }
+
                                     // Update UI on the main thread
                                     runOnUiThread(() -> {
-                                        areaMapView.addRobotPoint(rx, ry);
-
-                                        // Left sensor (-45 deg)
-                                        if (distL < 150) {
-                                            float[] obs = collectObstaclePoint(rx, ry, heading, distL, -45);
-                                            areaMapView.addObstaclePoint(obs[0], obs[1]);
-                                        }
-                                        // Center sensor (0 deg)
-                                        if (distC < 150) {
-                                            float[] obs = collectObstaclePoint(rx, ry, heading, distC, 0);
-                                            areaMapView.addObstaclePoint(obs[0], obs[1]);
-                                        }
-                                        // Right sensor (+45 deg)
-                                        if (distR < 150) {
-                                            float[] obs = collectObstaclePoint(rx, ry, heading, distR, 45);
-                                            areaMapView.addObstaclePoint(obs[0], obs[1]);
-                                        }
+                                        areaMapView.update();
                                     });
                                 } catch (NumberFormatException e) {
                                     // Ignore malformed lines

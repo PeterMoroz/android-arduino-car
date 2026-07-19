@@ -84,6 +84,19 @@
             android:drawablePadding="5dp"
             android:text="Build Map" />
 
+        <Button
+            android:id="@+id/btnProgramPath"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
+            android:layout_marginTop="20dp"
+            android:drawablePadding="5dp"
+            android:text="Program Path" />
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

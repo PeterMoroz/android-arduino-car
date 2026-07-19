@@ -123,17 +123,28 @@ public class ConnectThread extends Thread {
 
         try {
             outputStream.write(data);
-
             return true;
         } catch (IOException e) {
             if (!this.isAlive()) {
                 this.cancel();
             }
-
             Log.d(G.LOG_TAG, "write error: " + e.getMessage());
         }
-
         return false;
+    }
+
+    public boolean write(String data) {
+        try {
+            byte[] bytes = data.getBytes();
+            outputStream.write(data.getBytes());
+            return true;
+        } catch (IOException e) {
+            if (!this.isAlive()) {
+                this.cancel();
+            }
+            Log.d(G.LOG_TAG, "write error: " + e.getMessage());
+        }
+        return  false;
     }
 
     public void cancel() {

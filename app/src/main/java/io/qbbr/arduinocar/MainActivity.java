@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnAutomaticDrive;
     Button btnOpenRadar;
     Button btnBuildAreaMap;
+    Button btnProgramPath;
 
 
     @Override
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnBuildAreaMap = findViewById(R.id.btnBuildMap);
         btnBuildAreaMap.setOnClickListener(this);
+
+        btnProgramPath = findViewById(R.id.btnProgramPath);
+        btnProgramPath.setOnClickListener(this);
     }
 
     @Override
@@ -135,14 +139,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentBuildMap = new Intent(this, AreaMapActivity.class);
                 startActivity(intentBuildMap);
                 break;
+            case R.id.btnProgramPath:
+                startActivity(new Intent(this, ProgramPathActivity.class));
+                break;
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        Log.d(G.LOG_TAG, "onResume");
 
         if (G.connectThread != null && G.connectThread.isConnected()) {
             tvCurrentDevice.setText("connected to device " + G.bluetoothDevice.getName());
@@ -151,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnAutomaticDrive.setEnabled(true);
             btnOpenRadar.setEnabled(true);
             btnBuildAreaMap.setEnabled(true);
+            btnProgramPath.setEnabled(true);
         } else {
             tvCurrentDevice.setText(R.string.device_not_chosen);
             btnChooseDevice.setText(R.string.btn_choose_device);
@@ -158,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnAutomaticDrive.setEnabled(false);
             btnOpenRadar.setEnabled(false);
             btnBuildAreaMap.setEnabled(false);
+            btnProgramPath.setEnabled(false);
         }
     }
 }

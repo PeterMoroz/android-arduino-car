@@ -10,10 +10,6 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ManualDriveActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
@@ -29,7 +25,7 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
     public static final char CMD_MANUAL_DRIVE = 'm';
 
 
-    FileOutputStream fos = null;
+//    FileOutputStream fos = null;
 
     ImageButton btnForwardLeft;
     ImageButton btnForward;
@@ -91,7 +87,6 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
         });
 
         if (G.connectThread.getState() == Thread.State.NEW) {
-            Log.d(G.LOG_TAG, "ManualDriveActivity - start connect thread");
             G.connectThread.start();
         }
 
