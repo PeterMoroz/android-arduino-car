@@ -3,6 +3,7 @@ package io.qbbr.arduinocar;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,10 +24,8 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
     public static final char CMD_ROTATE_RIGHT = 'd';
     public static final char CMD_STOP = 's';
     public static final char CMD_MANUAL_DRIVE = 'm';
-
-
-//    FileOutputStream fos = null;
-
+    private static final String ARDUINO_DATA = "$data: ";
+    
     ImageButton btnForwardLeft;
     ImageButton btnForward;
     ImageButton btnForwardRight;
@@ -39,6 +38,13 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
 
     SeekBar seekBarSpeed;
     TextView tvSpeed;
+
+    TextView tvDistanceLeft;
+    TextView tvDistanceMiddle;
+    TextView tvDistanceRight;
+
+    CheckBox cbEnableChronometer;
+    Chronometer chronometer;
 
 
     @Override
@@ -72,15 +78,38 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
         seekBarSpeed = findViewById(R.id.seekBarSpeed);
         seekBarSpeed.setOnSeekBarChangeListener(this);
 
+        cbEnableChronometer = findViewById(R.id.cbChronometerEnabled);
+        cbEnableChronometer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean b) {
+                if (!cbEnableChronometer.isChecked()) {
+                    chronometer.stop();
+                }
+            }
+        });
+
+        chronometer = findViewById(R.id.cmChronometer);
+
+        tvDistanceLeft = findViewById(R.id.tvDistanceLeft);
+        tvDistanceMiddle = findViewById(R.id.tvDistanceMiddle);
+        tvDistanceRight = findViewById(R.id.tvDistanceRight);
 
         G.connectThread.addHandler(new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                // ignore message, just dummy handler
                 switch (msg.what) {
                     case ConnectThread.RECEIVE_MESSAGE:
                         String data = (String) msg.obj;
+                        if (data.startsWith(ARDUINO_DATA)) {
+                            data = data.substring(data.indexOf(':') + 2);
+                            String[] params = data.split(", ");
+                            if (params.length == 6) {
+                                tvDistanceLeft.setText(params[0]);
+                                tvDistanceMiddle.setText(params[1]);
+                                tvDistanceRight.setText(params[2]);
+                            }
+                        }
                         break;
                 }
             }
@@ -100,29 +129,8 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         write(CMD_MANUAL_DRIVE);
-
-//        String dateStr = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date());
-//        String filename = dateStr + ".txt";
-//
-//        try {
-//            fos = openFileOutput(filename, MODE_PRIVATE);
-//        } catch (IOException e) {
-//            Log.d(G.LOG_TAG, "fos c-tor, IOException: " + e.getMessage());
-//        }
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        if (fos != null) {
-//            try {
-//                fos.close();
-//                fos = null;
-//            } catch (IOException e) {
-//                Log.d(G.LOG_TAG, "fos.close(), IOException: " + e.getMessage());
-//            }
-//        }
-//    }
 
     @Override
     public void onClick(View view) {
@@ -154,6 +162,20 @@ public class ManualDriveActivity extends AppCompatActivity implements View.OnCli
             case R.id.btnBackwardRight:
                 write(CMD_BACKWARD_RIGHT);
                 break;
+        }
+
+        if (cbEnableChronometer.isChecked()) {
+            int viewId = view.getId();
+            if (viewId == R.id.btnStop) {
+                chronometer.stop();
+            } else if (viewId == R.id.btnForward || viewId == R.id.btnBackward ||
+                viewId == R.id.btnForwardLeft || viewId == R.id.btnForwardRight ||
+                viewId == R.id.btnRotateLeft || viewId == R.id.btnRotateRight ||
+                viewId == R.id.btnBackwardLeft || viewId == R.id.btnBackwardRight) {
+                chronometer.setText("");
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
+            }
         }
     }
 

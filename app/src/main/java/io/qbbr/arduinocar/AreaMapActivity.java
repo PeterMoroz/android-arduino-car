@@ -82,7 +82,6 @@ public class AreaMapActivity extends AppCompatActivity {
         });
 
         if (G.connectThread.getState() == Thread.State.NEW) {
-            Log.d(G.LOG_TAG, "AutomaticDriveActivity - start connect thread");
             G.connectThread.start();
         }
 

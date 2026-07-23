@@ -87,7 +87,7 @@ public class ProgramPathActivity extends AppCompatActivity  implements View.OnCl
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        btnForward = findViewById(R.id.btnProgramForward);
+        btnForward = findViewById(R.id.btnForward);
         btnForward.setOnClickListener(v -> {
             deactivateOtherButton(btnForward);
             btnForward.setActivated(!btnForward.isActivated());
@@ -103,31 +103,39 @@ public class ProgramPathActivity extends AppCompatActivity  implements View.OnCl
             onCommandUpdate();
         });
 
-        btnForwardLeft = findViewById(R.id.btnProgramForwardLeft);
+        btnForwardLeft = findViewById(R.id.btnForwardLeft);
         btnForwardLeft.setOnClickListener(v -> {
             deactivateOtherButton(btnForwardLeft);
             btnForwardLeft.setActivated(!btnForwardLeft.isActivated());
             if (btnForwardLeft.isActivated()) {
                 activeButton = btnForwardLeft;
                 outlineActiveButton();
+                seekBarSpeed.setEnabled(true);
+                command = new Command("fleft", timeValue, speedValue);
             } else {
                 deactivateButton(btnForwardLeft);
+                command = null;
             }
+            onCommandUpdate();
         });
 
-        btnForwardRight = findViewById(R.id.btnProgramForwardRight);
+        btnForwardRight = findViewById(R.id.btnForwardRight);
         btnForwardRight.setOnClickListener(v -> {
             deactivateOtherButton(btnForwardRight);
             btnForwardRight.setActivated(!btnForwardRight.isActivated());
             if (btnForwardRight.isActivated()) {
                 activeButton = btnForwardRight;
                 outlineActiveButton();
+                seekBarSpeed.setEnabled(true);
+                command = new Command("fright", timeValue, speedValue);
             } else {
                 deactivateButton(btnForwardRight);
+                command = null;
             }
+            onCommandUpdate();
         });
 
-        btnRotateLeft = findViewById(R.id.btnProgramRotateLeft);
+        btnRotateLeft = findViewById(R.id.btnRotateLeft);
         btnRotateLeft.setOnClickListener(v -> {
             deactivateOtherButton(btnRotateLeft);
             btnRotateLeft.setActivated(!btnRotateLeft.isActivated());
@@ -143,7 +151,7 @@ public class ProgramPathActivity extends AppCompatActivity  implements View.OnCl
             onCommandUpdate();
         });
 
-        btnStop = findViewById(R.id.btnProgramStop);
+        btnStop = findViewById(R.id.btnStop);
         btnStop.setOnClickListener(v -> {
             deactivateOtherButton(btnStop);
             btnStop.setActivated(!btnStop.isActivated());
@@ -159,7 +167,7 @@ public class ProgramPathActivity extends AppCompatActivity  implements View.OnCl
             onCommandUpdate();
         });
 
-        btnRotateRight = findViewById(R.id.btnProgramRotateRight);
+        btnRotateRight = findViewById(R.id.btnRotateRight);
         btnRotateRight.setOnClickListener(v -> {
             deactivateOtherButton(btnRotateRight);
             btnRotateRight.setActivated(!btnRotateRight.isActivated());
@@ -175,19 +183,23 @@ public class ProgramPathActivity extends AppCompatActivity  implements View.OnCl
             onCommandUpdate();
         });
 
-        btnBackwardLeft = findViewById(R.id.btnProgramBackwardLeft);
+        btnBackwardLeft = findViewById(R.id.btnBackwardLeft);
         btnBackwardLeft.setOnClickListener(v -> {
             deactivateOtherButton(btnBackwardLeft);
             btnBackwardLeft.setActivated(!btnBackwardLeft.isActivated());
             if (btnBackwardLeft.isActivated()) {
                 activeButton = btnBackwardLeft;
                 outlineActiveButton();
+                seekBarSpeed.setEnabled(true);
+                command = new Command("bleft", timeValue, speedValue);
             } else {
                 deactivateButton(btnBackwardLeft);
+                command = null;
             }
+            onCommandUpdate();
         });
 
-        btnBackward = findViewById(R.id.btnProgramBackward);
+        btnBackward = findViewById(R.id.btnBackward);
         btnBackward.setOnClickListener(v -> {
             deactivateOtherButton(btnBackward);
             btnBackward.setActivated(!btnBackward.isActivated());
@@ -203,31 +215,35 @@ public class ProgramPathActivity extends AppCompatActivity  implements View.OnCl
             onCommandUpdate();
         });
 
-        btnBackwardRight = findViewById(R.id.btnProgramBackwardRight);
+        btnBackwardRight = findViewById(R.id.btnBackwardRight);
         btnBackwardRight.setOnClickListener(v -> {
             deactivateOtherButton(btnBackwardRight);
             btnBackwardRight.setActivated(!btnBackwardRight.isActivated());
             if (btnBackwardRight.isActivated()) {
                 activeButton = btnBackwardRight;
                 outlineActiveButton();
+                seekBarSpeed.setEnabled(true);
+                command = new Command("bright", timeValue, speedValue);
             } else {
                 deactivateButton(btnBackwardRight);
+                command = null;
             }
+            onCommandUpdate();
         });
 
         activeButton = null;
         activeButtonBackground = null;
 
-        tvSpeed = findViewById(R.id.tvProgramSpeed);
-        seekBarSpeed = findViewById(R.id.seekbarProgramSpeed);
+        tvSpeed = findViewById(R.id.tvSpeed);
+        seekBarSpeed = findViewById(R.id.seekbarSpeed);
         seekBarSpeed.setOnSeekBarChangeListener(this);
 
-        tvTime = findViewById(R.id.tvProgramTime);
-        seekBarTime = findViewById(R.id.seekbarProgramTime);
+        tvTime = findViewById(R.id.tvTime);
+        seekBarTime = findViewById(R.id.seekbarTime);
         seekBarTime.setOnSeekBarChangeListener(this);
 
-        tvCommand = findViewById(R.id.tvProgramCommand);
-        btnAddCommand = findViewById(R.id.btnProgramAddCommand);
+        tvCommand = findViewById(R.id.tvCommand);
+        btnAddCommand = findViewById(R.id.btnAddCommand);
         btnAddCommand.setOnClickListener(v -> {
             if (command != null) {
                 commandsList.add(command);
@@ -243,7 +259,7 @@ public class ProgramPathActivity extends AppCompatActivity  implements View.OnCl
             }
         });
 
-        btnExecuteProgram = findViewById(R.id.btnProgramExecute);
+        btnExecuteProgram = findViewById(R.id.btnExecute);
         btnExecuteProgram.setOnClickListener(v -> {
             Runnable runnable = new Runnable() {
                 @Override
@@ -334,10 +350,10 @@ public class ProgramPathActivity extends AppCompatActivity  implements View.OnCl
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         switch (seekBar.getId()) {
-            case R.id.seekbarProgramSpeed:
+            case R.id.seekbarSpeed:
                 setSpeed(i);
                 break;
-            case R.id.seekbarProgramTime:
+            case R.id.seekbarTime:
                 setTime(i);
                 break;
         }

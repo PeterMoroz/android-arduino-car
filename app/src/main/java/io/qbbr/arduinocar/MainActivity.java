@@ -124,20 +124,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btnManualDrive:
-                Intent intentManualDrive = new Intent(this, ManualDriveActivity.class);
-                startActivity(intentManualDrive);
+                startActivity(new Intent(this, ManualDriveActivity.class));
                 break;
             case R.id.btnAutomaticDrive:
-                Intent intentAutomaticDrive = new Intent(this, AutomaticDriveActivity.class);
-                startActivity(intentAutomaticDrive);
+                startActivity(new Intent(this, AutomaticDriveActivity.class));
                 break;
             case R.id.btnRadar:
-                Intent intentRadar = new Intent(this, RadarActivity.class);
-                startActivity(intentRadar);
+                startActivity(new Intent(this, RadarActivity.class));
                 break;
             case R.id.btnBuildMap:
-                Intent intentBuildMap = new Intent(this, AreaMapActivity.class);
-                startActivity(intentBuildMap);
+                startActivity(new Intent(this, AreaMapActivity.class));
                 break;
             case R.id.btnProgramPath:
                 startActivity(new Intent(this, ProgramPathActivity.class));
